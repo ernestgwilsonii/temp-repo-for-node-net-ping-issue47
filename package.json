@@ -1,0 +1,24 @@
+{
+  "name": "temp-repo-for-node-net-ping-issue47",
+  "version": "1.0.0",
+  "description": "temp-repo-for-node-net-ping-issue47",
+  "main": "ping_promise_promise-all_all-in-one.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ernestgwilsonii/temp-repo-for-node-net-ping-issue47.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ernestgwilsonii/temp-repo-for-node-net-ping-issue47/issues"
+  },
+  "homepage": "https://github.com/ernestgwilsonii/temp-repo-for-node-net-ping-issue47#readme",
+  "dependencies": {
+    "async": "^2.6.0",
+    "net-ping": "^1.2.1"
+  }
+}
