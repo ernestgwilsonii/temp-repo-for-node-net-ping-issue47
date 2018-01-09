@@ -16,7 +16,7 @@ const localDebug = false;
 // Callback //
 //////////////
 function pinger(target, options, callback) {
-    const session = ping.createSession(options);
+    //const session = ping.createSession(options);
     session.pingHost(target, function (error, target, sent, rcvd) {
         let res = {};
         res.pingIp = target;
@@ -58,16 +58,20 @@ let options = {
 }
 
 function pingChunker(arr, callback) {
+    let result={fail:0, ok:0};
+    setInterval( _ => console.log(result), 1000);
     for (let target of arr) {
         // Callback style!
         pinger(target, options, (err, res) => {
             if (err) {
                 // PING errors
+                ++result.fail;
                 if (localDebug) { console.log(JSON.stringify(err)); }
                 console.log('err.pingIp: ' + err.pingIp);
                 console.log('err.pingResponds: ' + err.pingResponds);
                 console.log('err.pingErr: ' + err.pingErr);
-            } else {
+            } else { 
+                ++result.ok;
                 // PING results
                 if (localDebug) { console.log(JSON.stringify(res)); }
                 console.log('res.pingIp: ' + res.pingIp);
@@ -92,9 +96,12 @@ targets = ["8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.
 
 console.log(targets.length);
 
+
+var session = ping.createSession(options);
 pingChunker(targets, (err, res) => {
     //
 });
+
 
 console.log(targets.length); // When it fails, the script silently exits and this line never prints
 
