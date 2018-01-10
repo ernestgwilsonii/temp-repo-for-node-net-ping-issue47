@@ -101,7 +101,7 @@ class Pinger {
                 console.log('this.target: ' + this.target);
                 console.log('this.options: ' + JSON.stringify(this.options));
             }
-            const session = ping.createSession(this.options);
+            //const session = ping.createSession(this.options);
             session.pingHost(this.target, function (error, target, sent, rcvd) {
                 let ms = rcvd - sent;
                 if (!res) { res = {}; }
@@ -161,6 +161,7 @@ let options = {
 targets = ["8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4", "8.8.8.8", "8.8.4.4"];
 
 
+var session = ping.createSession(this.options);
 // Create the array of SSH session objects needed to feed Promise all
 let pingPromiseArr = [];
 for (let target of targets) {
@@ -171,18 +172,22 @@ for (let target of targets) {
 Promise.all(pingPromiseArr)
     .then((arr) => {
         if (localDebug) { console.log('arr: ' + JSON.stringify(arr, null, 2)); };
+        let result={ok:0, fail:0}
         for (let res of arr) {
             if (localDebug) { console.log('res: ' + JSON.stringify(res)); };
             if (res.pingErr) {
+                ++result.fail;
                 console.log('res.pingIp: ' + res.pingIp);
                 console.log('res.pingResponds: ' + res.pingResponds);
                 console.log('res.pingErr: ' + res.pingErr);
             } else {
+                ++result.ok;
                 console.log('res.pingIp: ' + res.pingIp);
                 console.log('res.pingResponds: ' + res.pingResponds);
                 console.log('res.pingMs: ' + res.pingMs);
             }
         }
+        console.log(result);
     }).catch(err => {
         console.log(err)
     });
